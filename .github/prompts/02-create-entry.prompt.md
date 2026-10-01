@@ -22,6 +22,10 @@ The Markdown body should contain the actual entry content. Ask for enough factua
 
 Optional frontmatter fields are `cover` (path to an image that exists in the repository), `coverAlt` (image description), and `status` (free-form text). Omit optional fields the user did not provide. Never reference a cover image that does not exist, and do not create placeholder image files.
 
+If the user asks to use an image attached in chat, first check whether a local file path is actually available. A visible chat preview may not expose the image bytes or a workspace path. If it is inaccessible, ask once for the user to place the source image in `src/content/entries/images/` or provide its local path. Do not repeatedly search unrelated workspace or session folders, and do not claim the image was converted or added until the file is accessible.
+
+If the user requests a WebP cover, use an available image converter (Sharp is available in this Astro project), preserve the original source unless asked to remove it, and verify the output file before referencing it. If the image contains language-specific text, create a separate image for each locale (for example, `<slug>-en.webp` and `<slug>-zh.webp`) and point each Markdown file to its matching cover. Never overwrite a shared locale image when creating another language variant.
+
 When the brief is complete:
 - Choose a unique kebab-case English filename from the title unless the user specified a slug. Check both the English path and `zh/` companion path before creating either file.
 - Write the source frontmatter and Markdown body in English, and its companion in Simplified Chinese, matching the repository's existing entry style and supported Markdown features.
