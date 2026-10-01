@@ -13,6 +13,7 @@ const copy = MESSAGES[language];
   <div class="container inner">
     <h1 id="intro-title">{copy.introTitle}</h1>
     <p>{copy.introLead}</p>
+    <a class="feedback" href="mailto:shentiexiong@gmail.com">{copy.contactFeedback}: shentiexiong@gmail.com</a>
   </div>
 </section>
 
@@ -41,6 +42,18 @@ const copy = MESSAGES[language];
     line-height: 26px;
     color: var(--site-on-inverse-2);
     text-wrap: pretty;
+  }
+  .feedback {
+    display: inline-flex;
+    margin-top: 16px;
+    color: var(--site-on-inverse);
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .feedback:hover {
+    color: var(--site-on-inverse-2);
   }
   @media (min-width: 600px) {
     .inner {

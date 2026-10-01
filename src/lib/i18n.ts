@@ -22,6 +22,7 @@ export const MESSAGES = {
     previous: 'Previous',
     next: 'Next',
     footerLocation: 'Auckland, New Zealand',
+    contactFeedback: 'Feedback',
     footerHosting: 'Built with Astro · Hosted on GitHub Pages',
   },
   zh: {
@@ -45,6 +46,7 @@ export const MESSAGES = {
     previous: '上一篇',
     next: '下一篇',
     footerLocation: '新西兰奥克兰',
+    contactFeedback: '反馈',
     footerHosting: '使用 Astro 构建 · 托管于 GitHub Pages',
   },
 } satisfies Record<Locale, Record<string, string | ((count: number) => string)>>;
