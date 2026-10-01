@@ -1,0 +1,72 @@
+@import './ds/tokens.css';
+@import './ds/chip.css';
+@import './ds/button.css';
+@import './ds/togglebutton.css';
+@import './ds/textfield.css';
+@import './ds/textlink.css';
+@import './ds/alert.css';
+@import './site-tokens.css';
+
+/* Page side padding per tier; components read it so bleeds and gutters stay in sync. */
+:root { --page-pad: 20px; }
+@media (min-width: 600px) { :root { --page-pad: 32px; } }
+@media (min-width: 1024px) { :root { --page-pad: 40px; } }
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  color-scheme: light;
+  -webkit-text-size-adjust: 100%;
+}
+html[data-theme='dark'] { color-scheme: dark; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--site-bg);
+  color: var(--site-text);
+  font-family: var(--font-sans);
+  transition: background-color 200ms ease, color 200ms ease;
+}
+body > main { flex: 1; }
+
+img { max-width: 100%; height: auto; }
+
+a { color: var(--site-link); }
+a:hover { color: var(--site-text); }
+
+:focus-visible { outline: 2px solid var(--color-info-main); outline-offset: 2px; }
+
+/* Search field focus: grey-900 border plus a 1px inset ring. */
+.tf-input:focus-within { border-color: var(--color-grey-900); box-shadow: inset 0 0 0 1px var(--color-grey-900); }
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+[hidden] { display: none !important; }
+
+/* Shared outer container. The prototype's 1200px is the content box, so padding sits outside it. */
+.container {
+  /* Explicit width: auto margins would otherwise stop <main> stretching inside the flex body. */
+  width: 100%;
+  max-width: calc(1200px + 2 * var(--page-pad));
+  margin: 0 auto;
+  padding-left: var(--page-pad);
+  padding-right: var(--page-pad);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}

@@ -1,0 +1,227 @@
+/* ============================================================
+   tokens.css — SELF-CONTAINED token closure.
+   GENERATED from the *-tokens.css / fonts.css files (their :root
+   variables + @font-face). Regenerate when those change; do NOT
+   hand-edit. Inlined (no @import) so a component stylesheet that
+   imports this works even when only it + this file are copied —
+   no second-level deps to miss. Utility classes (.bg-grey-50 …)
+   stay in the individual token files.
+   ============================================================ */
+/* ---- from color-tokens.css ---- */
+:root {
+  
+  --color-error-main: #cc0000;
+  --color-error-light: #fae6e6;
+  
+  --color-warning-main: #FFA000;
+  --color-warning-light: #fef8ed;
+  
+  --color-info-main: #1379ce;
+  --color-info-light: #e7f2fa;
+  
+  --color-success-main: #008000;
+  --color-success-light: #E6F2E6;
+  
+  --color-secondary-main: #1379ce;
+  
+  --color-aderant-red: #B30838;
+  --color-askmaddi: #5A189A;
+  
+  --color-common-black: #000000;
+  --color-common-white: #ffffff;
+  /* RGB channel lists — for alpha overlays of a palette swatch:
+     rgb(var(--color-grey-50-rgb) / 50%). Space-separated so the same
+     token works in both rgb() and rgba() slash syntax. */
+  --color-common-white-rgb: 255 255 255;
+  --color-info-main-rgb: 19 121 206;
+  
+  --color-grey-50: #f1f1f1;
+  --color-grey-50-rgb: 241 241 241;
+  --color-grey-100: #EEEEEE;
+  --color-grey-200: #e5e5e5;
+  --color-grey-300: #d8d8d8;
+  --color-grey-300-rgb: 216 216 216;
+  --color-grey-900-rgb: 31 31 31;
+  --color-grey-350: #c2c2c2;
+  --color-grey-400: #A8A8A8;
+  --color-grey-500: #767676;
+  --color-grey-600: #525252;
+  --color-grey-700: #333333;
+  --color-grey-800: #222222;
+  --color-grey-900: #1f1f1f;
+  
+  --color-ai-purple-50: #F5EEFF;
+  --color-ai-purple-200: #D1ADFF;
+  --color-ai-purple-500: #9747FF;
+  --color-ai-purple-700: #5E1ACC;
+}
+
+/* ---- from radius-tokens.css ---- */
+:root {
+  --radius-none: 0px;
+  --radius-xxs: 2px;
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 12px;
+  --radius-xxl: 16px;
+  --radius-round: 50px;
+}
+
+/* ---- from spacing-tokens.css ---- */
+:root {
+  --spacing-10: 2px;
+  --spacing-20: 4px;
+  --spacing-30: 8px;
+  --spacing-40: 12px;
+  --spacing-50: 16px;
+  --spacing-60: 20px;
+  --spacing-70: 24px;
+  --spacing-80: 32px;
+  --spacing-90: 40px;
+  --spacing-100: 48px;
+  --spacing-110: 60px;
+  --spacing-120: 80px;
+  --spacing-130: 100px;
+}
+
+/* ---- from type-tokens.css ---- */
+:root {
+  
+  --type-h1-size: 36px;          --type-h1-line: 44px;          --type-h1-weight: 400; --type-h1-spacing: 0px;
+  --type-h1Medium-size: 36px;    --type-h1Medium-line: 44px;    --type-h1Medium-weight: 500; --type-h1Medium-spacing: 0px;
+  --type-h1SemiBold-size: 36px;  --type-h1SemiBold-line: 44px;  --type-h1SemiBold-weight: 600; --type-h1SemiBold-spacing: 0px;
+  --type-h1ExtraBold-size: 36px; --type-h1ExtraBold-line: 44px; --type-h1ExtraBold-weight: 800; --type-h1ExtraBold-spacing: 0px;
+
+  
+  --type-h2-size: 32px;          --type-h2-line: 40px;          --type-h2-weight: 400; --type-h2-spacing: 0px;
+  --type-h2Medium-size: 32px;    --type-h2Medium-line: 40px;    --type-h2Medium-weight: 500; --type-h2Medium-spacing: 0px;
+  --type-h2SemiBold-size: 32px;  --type-h2SemiBold-line: 40px;  --type-h2SemiBold-weight: 600; --type-h2SemiBold-spacing: 0px;
+  --type-h2ExtraBold-size: 32px; --type-h2ExtraBold-line: 40px; --type-h2ExtraBold-weight: 800; --type-h2ExtraBold-spacing: 0.2px;
+
+  
+  --type-h3-size: 28px;          --type-h3-line: 36px;          --type-h3-weight: 400; --type-h3-spacing: 0px;
+  --type-h3Medium-size: 28px;    --type-h3Medium-line: 36px;    --type-h3Medium-weight: 500; --type-h3Medium-spacing: 0px;
+  --type-h3SemiBold-size: 28px;  --type-h3SemiBold-line: 36px;  --type-h3SemiBold-weight: 600; --type-h3SemiBold-spacing: 0px;
+  --type-h3ExtraBold-size: 28px; --type-h3ExtraBold-line: 36px; --type-h3ExtraBold-weight: 800; --type-h3ExtraBold-spacing: 0.2px;
+
+  
+  --type-h4-size: 24px;          --type-h4-line: 32px;          --type-h4-weight: 400; --type-h4-spacing: 0px;
+  --type-h4Medium-size: 24px;    --type-h4Medium-line: 32px;    --type-h4Medium-weight: 500; --type-h4Medium-spacing: 0px;
+  --type-h4SemiBold-size: 24px;  --type-h4SemiBold-line: 32px;  --type-h4SemiBold-weight: 600; --type-h4SemiBold-spacing: 0px;
+  --type-h4ExtraBold-size: 24px; --type-h4ExtraBold-line: 32px; --type-h4ExtraBold-weight: 800; --type-h4ExtraBold-spacing: 0px;
+
+  
+  --type-body1-size: 20px;          --type-body1-line: 24px;          --type-body1-weight: 400; --type-body1-spacing: 0px;
+  --type-body1Medium-size: 20px;    --type-body1Medium-line: 24px;    --type-body1Medium-weight: 500; --type-body1Medium-spacing: 0px;
+  --type-body1SemiBold-size: 20px;  --type-body1SemiBold-line: 24px;  --type-body1SemiBold-weight: 600; --type-body1SemiBold-spacing: 0px;
+  --type-body1ExtraBold-size: 20px; --type-body1ExtraBold-line: 24px; --type-body1ExtraBold-weight: 800; --type-body1ExtraBold-spacing: 0.2px;
+
+  
+  --type-body2-size: 18px;          --type-body2-line: 24px;          --type-body2-weight: 400; --type-body2-spacing: 0px;
+  --type-body2Medium-size: 18px;    --type-body2Medium-line: 24px;    --type-body2Medium-weight: 500; --type-body2Medium-spacing: 0px;
+  --type-body2SemiBold-size: 18px;  --type-body2SemiBold-line: 24px;  --type-body2SemiBold-weight: 600; --type-body2SemiBold-spacing: 0px;
+  --type-body2ExtraBold-size: 18px; --type-body2ExtraBold-line: 24px; --type-body2ExtraBold-weight: 800; --type-body2ExtraBold-spacing: 0.2px;
+
+  
+  --type-body3-size: 16px;          --type-body3-line: 20px;          --type-body3-weight: 400; --type-body3-spacing: 0px;
+  --type-body3Medium-size: 16px;    --type-body3Medium-line: 20px;    --type-body3Medium-weight: 500; --type-body3Medium-spacing: 0px;
+  --type-body3SemiBold-size: 16px;  --type-body3SemiBold-line: 20px;  --type-body3SemiBold-weight: 600; --type-body3SemiBold-spacing: 0px;
+  --type-body3ExtraBold-size: 16px; --type-body3ExtraBold-line: 20px; --type-body3ExtraBold-weight: 800; --type-body3ExtraBold-spacing: 0.2px;
+
+  
+  --type-body4-size: 14px;          --type-body4-line: 20px;          --type-body4-weight: 400; --type-body4-spacing: 0px;
+  --type-body4Medium-size: 14px;    --type-body4Medium-line: 20px;    --type-body4Medium-weight: 500; --type-body4Medium-spacing: 0px;
+  --type-body4SemiBold-size: 14px;  --type-body4SemiBold-line: 20px;  --type-body4SemiBold-weight: 600; --type-body4SemiBold-spacing: 0px;
+  --type-body4ExtraBold-size: 14px; --type-body4ExtraBold-line: 20px; --type-body4ExtraBold-weight: 800; --type-body4ExtraBold-spacing: 0.2px;
+
+  
+  --type-body5-size: 12px;          --type-body5-line: 16px;          --type-body5-weight: 400; --type-body5-spacing: 0px;
+  --type-body5Medium-size: 12px;    --type-body5Medium-line: 16px;    --type-body5Medium-weight: 500; --type-body5Medium-spacing: 0px;
+  --type-body5SemiBold-size: 12px;  --type-body5SemiBold-line: 16px;  --type-body5SemiBold-weight: 600; --type-body5SemiBold-spacing: 0px;
+  --type-body5ExtraBold-size: 12px; --type-body5ExtraBold-line: 16px; --type-body5ExtraBold-weight: 800; --type-body5ExtraBold-spacing: 0px;
+
+  
+  --type-body6-size: 11px;          --type-body6-line: 16px;          --type-body6-weight: 400; --type-body6-spacing: 0px;
+  --type-body6Medium-size: 11px;    --type-body6Medium-line: 16px;    --type-body6Medium-weight: 500; --type-body6Medium-spacing: 0px;
+  --type-body6SemiBold-size: 11px;  --type-body6SemiBold-line: 16px;  --type-body6SemiBold-weight: 600; --type-body6SemiBold-spacing: 0px;
+  --type-body6ExtraBold-size: 11px; --type-body6ExtraBold-line: 16px; --type-body6ExtraBold-weight: 800; --type-body6ExtraBold-spacing: 0px;
+
+  
+  --type-secondaryBody1-size: 14px;         --type-secondaryBody1-line: 16px;         --type-secondaryBody1-weight: 400; --type-secondaryBody1-spacing: 0.3px;
+  --type-secondaryBody1SemiBold-size: 14px; --type-secondaryBody1SemiBold-line: 16px; --type-secondaryBody1SemiBold-weight: 500; --type-secondaryBody1SemiBold-spacing: 0.3px;
+  --type-secondaryBody1Bold-size: 14px;     --type-secondaryBody1Bold-line: 16px;     --type-secondaryBody1Bold-weight: 600; --type-secondaryBody1Bold-spacing: 0.3px;
+
+  --type-secondaryBody2-size: 12px;         --type-secondaryBody2-line: 14px;         --type-secondaryBody2-weight: 400; --type-secondaryBody2-spacing: 0.5px;
+  --type-secondaryBody2SemiBold-size: 12px; --type-secondaryBody2SemiBold-line: 14px; --type-secondaryBody2SemiBold-weight: 500; --type-secondaryBody2SemiBold-spacing: 0.5px;
+  --type-secondaryBody2Bold-size: 12px;     --type-secondaryBody2Bold-line: 14px;     --type-secondaryBody2Bold-weight: 600; --type-secondaryBody2Bold-spacing: 0.5px;
+
+  --type-secondaryBody3-size: 11px;         --type-secondaryBody3-line: 14px;         --type-secondaryBody3-weight: 400; --type-secondaryBody3-spacing: 0.5px;
+  --type-secondaryBody3SemiBold-size: 11px; --type-secondaryBody3SemiBold-line: 14px; --type-secondaryBody3SemiBold-weight: 500; --type-secondaryBody3SemiBold-spacing: 0.5px;
+  --type-secondaryBody3Bold-size: 11px;     --type-secondaryBody3Bold-line: 14px;     --type-secondaryBody3Bold-weight: 600; --type-secondaryBody3Bold-spacing: 0.5px;
+}
+
+/* ---- from elevation-tokens.css ---- */
+:root {
+  --elevation-0: none;
+  --elevation-1: 0px 2px 1px -1px rgba(0,0,0,0.05), 0px 1px 1px 0px rgba(0,0,0,0.04), 0px 1px 3px 0px rgba(0,0,0,0.02);
+  --elevation-2: 0px 3px 1px -2px rgba(0,0,0,0.05), 0px 2px 2px 0px rgba(0,0,0,0.04), 0px 1px 5px 0px rgba(0,0,0,0.02);
+  --elevation-3: 0px 3px 3px -2px rgba(0,0,0,0.05), 0px 3px 4px 0px rgba(0,0,0,0.04), 0px 1px 8px 0px rgba(0,0,0,0.02);
+  --elevation-4: 0px 2px 4px -1px rgba(0,0,0,0.05), 0px 4px 5px 0px rgba(0,0,0,0.04), 0px 1px 10px 0px rgba(0,0,0,0.02);
+  --elevation-5: 0px 3px 5px -1px rgba(0,0,0,0.05), 0px 5px 8px 0px rgba(0,0,0,0.04), 0px 1px 14px 0px rgba(0,0,0,0.02);
+  --elevation-6: 0px 3px 5px -1px rgba(0,0,0,0.05), 0px 6px 10px 0px rgba(0,0,0,0.04), 0px 1px 18px 0px rgba(0,0,0,0.02);
+  --elevation-7: 0px 4px 5px -2px rgba(0,0,0,0.05), 0px 7px 10px 1px rgba(0,0,0,0.04), 0px 2px 16px 1px rgba(0,0,0,0.02);
+  --elevation-8: 0px 5px 5px -3px rgba(0,0,0,0.05), 0px 8px 10px 1px rgba(0,0,0,0.04), 0px 3px 14px 2px rgba(0,0,0,0.02);
+  --elevation-9: 0px 5px 6px -3px rgba(0,0,0,0.05), 0px 9px 12px 1px rgba(0,0,0,0.04), 0px 3px 16px 2px rgba(0,0,0,0.02);
+  --elevation-10: 0px 6px 6px -3px rgba(0,0,0,0.05), 0px 10px 14px 1px rgba(0,0,0,0.04), 0px 4px 18px 3px rgba(0,0,0,0.02);
+  --elevation-11: 0px 6px 7px -4px rgba(0,0,0,0.05), 0px 11px 15px 1px rgba(0,0,0,0.04), 0px 4px 20px 3px rgba(0,0,0,0.02);
+  --elevation-12: 0px 7px 8px -4px rgba(0,0,0,0.05), 0px 12px 17px 2px rgba(0,0,0,0.04), 0px 5px 22px 4px rgba(0,0,0,0.02);
+  --elevation-13: 0px 7px 8px -4px rgba(0,0,0,0.05), 0px 13px 19px 2px rgba(0,0,0,0.04), 0px 5px 24px 4px rgba(0,0,0,0.02);
+  --elevation-14: 0px 7px 9px -4px rgba(0,0,0,0.05), 0px 14px 21px 2px rgba(0,0,0,0.04), 0px 5px 26px 4px rgba(0,0,0,0.02);
+  --elevation-15: 0px 8px 9px -5px rgba(0,0,0,0.05), 0px 15px 22px 2px rgba(0,0,0,0.04), 0px 6px 28px 5px rgba(0,0,0,0.02);
+  --elevation-16: 0px 8px 10px -5px rgba(0,0,0,0.05), 0px 16px 24px 2px rgba(0,0,0,0.04), 0px 6px 30px 5px rgba(0,0,0,0.02);
+  --elevation-17: 0px 8px 11px -5px rgba(0,0,0,0.05), 0px 17px 26px 2px rgba(0,0,0,0.04), 0px 6px 32px 5px rgba(0,0,0,0.02);
+  --elevation-18: 0px 9px 11px -5px rgba(0,0,0,0.05), 0px 18px 28px 2px rgba(0,0,0,0.04), 0px 7px 34px 6px rgba(0,0,0,0.02);
+  --elevation-19: 0px 9px 12px -6px rgba(0,0,0,0.05), 0px 19px 29px 2px rgba(0,0,0,0.04), 0px 7px 36px 6px rgba(0,0,0,0.02);
+  --elevation-20: 0px 10px 13px -6px rgba(0,0,0,0.05), 0px 20px 31px 3px rgba(0,0,0,0.04), 0px 8px 38px 7px rgba(0,0,0,0.02);
+  --elevation-21: 0px 10px 13px -6px rgba(0,0,0,0.05), 0px 21px 33px 3px rgba(0,0,0,0.04), 0px 8px 40px 7px rgba(0,0,0,0.02);
+  --elevation-22: 0px 10px 14px -6px rgba(0,0,0,0.05), 0px 22px 35px 3px rgba(0,0,0,0.04), 0px 8px 42px 7px rgba(0,0,0,0.02);
+  --elevation-23: 0px 11px 14px -7px rgba(0,0,0,0.05), 0px 23px 36px 3px rgba(0,0,0,0.04), 0px 9px 44px 8px rgba(0,0,0,0.02);
+  --elevation-24: 0px 11px 15px -7px rgba(0,0,0,0.05), 0px 24px 38px 3px rgba(0,0,0,0.04), 0px 9px 46px 8px rgba(0,0,0,0.02);
+}
+
+/* ---- from zindex-tokens.css ---- */
+:root {
+  --z-fullscreen: 1200;
+  --z-modal: 1300;
+  --z-popover: 1400;
+  --z-snackbar: 1450;
+}
+
+/* ---- from container-tokens.css ---- */
+/* Container-query ladder (sm/md/lg/xl). NOTE: a @container condition
+   cannot read var() — write the literal in the query and name the token
+   in a comment; these vars are for caps (max-width: var(--container-main-xl)),
+   calc() and getComputedStyle. JS/MUI read DSTokens.containerMain. */
+:root {
+  --container-main-sm: 600px;
+  --container-main-md: 900px;
+  --container-main-lg: 1200px;
+  --container-main-xl: 1536px;
+}
+
+/* ---- from fonts.css ---- */
+@font-face { font-family: "Roboto"; src: url("fonts/Roboto-Regular.ttf") format("truetype"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Roboto"; src: url("fonts/Roboto-Italic.ttf") format("truetype"); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: "Roboto"; src: url("fonts/Roboto-Medium.ttf") format("truetype"); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "Roboto"; src: url("fonts/Roboto-SemiBold.ttf") format("truetype"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "Roboto"; src: url("fonts/Roboto-ExtraBold.ttf") format("truetype"); font-weight: 800; font-style: normal; font-display: swap; }
+@font-face { font-family: "Roboto Condensed"; src: url("fonts/RobotoCondensed-Regular.ttf") format("truetype"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Roboto Condensed"; src: url("fonts/RobotoCondensed-SemiBold.ttf") format("truetype"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "Roboto Condensed"; src: url("fonts/RobotoCondensed-Bold.ttf") format("truetype"); font-weight: 700; font-style: normal; font-display: swap; }
+:root {
+  --font-sans: "Roboto", system-ui, -apple-system, sans-serif;
+  --font-condensed: "Roboto Condensed", "Roboto", system-ui, sans-serif;
+}
+

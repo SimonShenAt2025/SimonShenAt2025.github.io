@@ -1,0 +1,81 @@
+@import "tokens.css";
+
+/* ============================================================
+   ToggleButton / ToggleButtonGroup — MUI base with brand styling.
+   Manage toggle-button design here, once.
+     • group:  .ds-togglegroup  (+ .rounded for the sx shape
+                'toggleButtonGroupRounded'; default is squared)
+     • button: .ds-togglebtn  (+ .selected, .disabled)
+     • type:   label (text, optional leading icon) or .icon-only
+     • size:   .xs (28) · .sm (36) · .md (40, default) · .lg (48)
+     • color:  .color-info (default) · .color-error · .color-warning
+               · .color-primary · .color-secondary (grey-900)
+               set on the GROUP; cascades to its buttons.
+   Enabled = transparent fill, grey-900 label, grey-900 icon.
+   Selected = color-main fill, white label + icon.
+   Disabled = grey-400 text; selected+disabled = #B6D5F0 fill, white content.
+   ============================================================ */
+.ds-togglegroup {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 4px;
+  padding: 4px;
+  background: var(--color-common-white);
+  box-shadow: inset 0 0 0 1px var(--color-grey-300);
+  border-radius: var(--radius-md);          /* squared (default) */
+  overflow: hidden;
+  /* default color = info */
+  --tb-main: var(--color-info-main);
+}
+.ds-togglegroup.rounded { border-radius: 999px; }   /* sx shape: toggleButtonGroupRounded */
+/* vertical orientation — stack buttons in a column */
+.ds-togglegroup.vertical { flex-direction: column; align-items: stretch; }
+
+/* color (set on the group) */
+.ds-togglegroup.color-info      { --tb-main: var(--color-info-main); }
+.ds-togglegroup.color-error     { --tb-main: var(--color-error-main); }
+.ds-togglegroup.color-warning   { --tb-main: var(--color-warning-main); }
+.ds-togglegroup.color-primary   { --tb-main: var(--color-secondary-main); }  /* brand primary blue */
+.ds-togglegroup.color-secondary { --tb-main: var(--color-grey-900); }        /* grey-900 */
+
+/* divider removed — buttons are separated by the group's 4px gap */
+
+/* button */
+.ds-togglebtn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 4px;
+  border: none; background: transparent; cursor: pointer;
+  border-radius: 4px;                       /* squared (default) */
+  font-family: var(--font-sans); font-weight: 500; color: var(--color-grey-900);
+  padding: 0 16px;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+.ds-togglegroup.rounded .ds-togglebtn { border-radius: 50px; }
+.ds-togglebtn .tb-ico { display: inline-flex; align-items: center; justify-content: center; color: var(--color-grey-900); flex-shrink: 0; transition: color 120ms ease; }
+
+/* sizes */
+.ds-togglegroup.xs .ds-togglebtn { height: 24px; font-size: 13px; padding: 0 12px; }
+.ds-togglegroup.sm .ds-togglebtn { height: 28px; font-size: 14px; padding: 0 14px; }
+.ds-togglegroup.md .ds-togglebtn { height: 32px; font-size: 14px; padding: 0 16px; }
+.ds-togglegroup.lg .ds-togglebtn { height: 40px; font-size: 15px; padding: 0 16px; }
+.ds-togglegroup.xs .ds-togglebtn.icon-only { width: 24px; padding: 0; }
+.ds-togglegroup.sm .ds-togglebtn.icon-only { width: 28px; padding: 0; }
+.ds-togglegroup.md .ds-togglebtn.icon-only { width: 32px; padding: 0; }
+.ds-togglegroup.lg .ds-togglebtn.icon-only { width: 40px; padding: 0; }
+.ds-togglegroup.xs .tb-ico svg { width: 16px; height: 16px; }
+.ds-togglegroup.sm .tb-ico svg { width: 18px; height: 18px; }
+.ds-togglegroup.md .tb-ico svg { width: 20px; height: 20px; }
+.ds-togglegroup.lg .tb-ico svg { width: 24px; height: 24px; }
+
+/* hover (enabled, not selected) */
+.ds-togglebtn:not(.selected):not(.disabled):hover { background: var(--color-grey-50); }
+
+/* selected */
+.ds-togglebtn.selected { background: var(--tb-main); color: var(--color-common-white); }
+.ds-togglebtn.selected .tb-ico { color: var(--color-common-white); }
+
+/* disabled */
+.ds-togglebtn.disabled { color: var(--color-grey-400); cursor: not-allowed; }
+.ds-togglebtn.disabled .tb-ico { color: var(--color-grey-400); }
+.ds-togglebtn.selected.disabled { background: #B6D5F0; color: var(--color-common-white); }
+.ds-togglebtn.selected.disabled .tb-ico { color: var(--color-common-white); }

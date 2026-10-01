@@ -1,0 +1,190 @@
+---
+import { icons } from '../lib/icons';
+import { TYPE_META, type Entry, type EntryType } from '../lib/entries';
+import { ENTRY_TYPES } from '../content.config';
+
+interface Props {
+  entries: Entry[];
+}
+
+const { entries } = Astro.props;
+
+const types: { key: 'All' | EntryType; color: string; count: number }[] = [
+  { key: 'All', color: 'var(--site-text)', count: entries.length },
+  ...ENTRY_TYPES.map((t) => ({
+    key: t,
+    color: TYPE_META[t].main,
+    count: entries.filter((e) => e.data.type === t).length,
+  })),
+];
+
+const tags = [...new Set(entries.flatMap((e) => e.data.tags))].sort((a, b) => a.localeCompare(b));
+const countLabel = (n: number) => (n === 1 ? '1 entry' : `${n} entries`);
+---
+
+<section class="filters" aria-label="Filter entries">
+  <div class="row">
+    <div class="bleed type-strip">
+      <div class="ds-togglegroup md rounded color-secondary type-group" role="group" aria-label="Filter by type">
+        {
+          types.map((t) => (
+            <button
+              type="button"
+              class:list={['ds-togglebtn', { selected: t.key === 'All' }]}
+              aria-pressed={t.key === 'All' ? 'true' : 'false'}
+              data-type={t.key}
+            >
+              <span class="dot" aria-hidden="true" style={`background:${t.color}`} />
+              {t.key}
+              <span class="n">{t.count}</span>
+            </button>
+          ))
+        }
+      </div>
+    </div>
+    <label class="tf-input rounded search">
+      <span class="tf-adorn" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d={icons.search}></path></svg>
+      </span>
+      <input type="search" placeholder="Search by title" aria-label="Search by title" autocomplete="off" />
+    </label>
+  </div>
+
+  <div class="bleed tags">
+    {
+      tags.map((tag) => (
+        <button type="button" class="tag-btn" aria-pressed="false" data-tag={tag}>
+          <span class="ds-chip sm">{tag}</span>
+        </button>
+      ))
+    }
+    <button type="button" class="btn btn-text btn-xs clear" data-clear hidden>Clear filters</button>
+  </div>
+
+  <span class="count" aria-live="polite">{countLabel(entries.length)}</span>
+</section>
+
+<style>
+  .filters {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0 0 20px;
+  }
+  .row {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  /* Mobile: strips scroll sideways and bleed to the screen edges. */
+  .bleed {
+    margin: 0 calc(-1 * var(--page-pad));
+    padding: 0 var(--page-pad);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .bleed::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ds-togglegroup.type-group .ds-togglebtn {
+    gap: 8px;
+    white-space: nowrap;
+  }
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px var(--site-surface);
+  }
+  .n {
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+  .search {
+    width: 100%;
+    min-height: 44px;
+    cursor: text;
+  }
+  .search input::-webkit-search-cancel-button {
+    cursor: pointer;
+  }
+
+  .tags {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: nowrap;
+  }
+  .tag-btn {
+    flex: none;
+    padding: 6px 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  .tag-btn .ds-chip.sm {
+    height: 32px;
+    padding: 0 12px;
+    font-size: 13px;
+  }
+  .clear {
+    flex: none;
+  }
+
+  .count {
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--site-text-3);
+  }
+
+  /* Mobile type toggle is `lg` (40px buttons); tablet and desktop use the markup's `md`. */
+  @media (max-width: 599.98px) {
+    .ds-togglegroup.md.type-group .ds-togglebtn {
+      height: 40px;
+      font-size: 15px;
+      padding: 0 16px;
+    }
+  }
+
+  @media (min-width: 600px) {
+    .filters {
+      margin-bottom: 24px;
+    }
+    .row {
+      flex-direction: row;
+      align-items: center;
+    }
+    .bleed {
+      margin: 0;
+      padding: 0;
+      overflow-x: visible;
+    }
+    .search {
+      margin-left: auto;
+      width: 240px;
+      min-height: 36px;
+    }
+    .tags {
+      flex-wrap: wrap;
+    }
+    .tag-btn {
+      padding: 0;
+    }
+    .tag-btn .ds-chip.sm {
+      height: 22px;
+      padding: 0 10px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .filters {
+      margin-bottom: 28px;
+    }
+    .search {
+      width: 280px;
+    }
+  }
+</style>

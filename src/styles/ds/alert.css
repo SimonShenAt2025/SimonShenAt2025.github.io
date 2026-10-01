@@ -1,0 +1,280 @@
+@import "tokens.css";
+/* ============================================================
+   Alert — self-contained stylesheet for the HTML-prototype path.
+   (The MUI path uses alert-component.js theme override instead.)
+
+   Base:      .ds-alert   (= Inline variant, the default & most common)
+   Variants:  .expandable · .persistent
+   Status:    .info (default) · .success · .error · .warning · .ai
+              → status MAIN = outline/icon, status LIGHT = background
+              → .ai uses AI Purple 700 (outline/icon) + AI Purple 50 (bg)
+   Layout:    default = row (body ↔ actions side by side)
+              .col     = column (actions stacked under body)
+
+   Structure (Inline / Expandable):
+     <div class="ds-alert error">
+       <span class="ds-alert-icon"></span>
+       <div class="ds-alert-main">
+         <div class="ds-alert-body">
+           <div class="ds-alert-title">…</div>
+           <div class="ds-alert-desc">…</div>
+           <button class="ds-alert-toggle">Show more</button>   (expandable only)
+         </div>
+         <div class="ds-alert-actions">…xsmall grey-900 buttons…</div>
+       </div>
+       <button class="ds-alert-close" aria-label="Dismiss"></button>
+     </div>
+
+   ALL glyphs (status icon · expand chevron · close X) are BAKED IN as CSS
+   masks — no sprite / <use href> dependency, so a wrong/missing id can never
+   blank them (DS packaging rule for CSS-only components).
+   ============================================================ */
+
+.ds-alert {
+  /* status tokens — overridden per status class below (default = info) */
+  --al-main: var(--color-info-main);
+  --al-bg: var(--color-info-light);
+  --al-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z'/%3E%3C/svg%3E");
+
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacing-30);                     /* 8px */
+  align-items: flex-start;
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--spacing-40);                 /* 12px */
+  border-radius: var(--radius-lg);           /* 12px */
+  background: var(--al-bg);
+  border: 1px solid var(--al-main);
+  font-family: var(--font-sans);
+}
+
+/* ── status palettes ─────────────────────────────────────── */
+.ds-alert.info {
+  --al-main: var(--color-info-main); --al-bg: var(--color-info-light);
+  --al-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z'/%3E%3C/svg%3E");
+}
+.ds-alert.error {
+  --al-main: var(--color-error-main); --al-bg: var(--color-error-light);
+  --al-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z'/%3E%3C/svg%3E");
+}
+.ds-alert.warning {
+  --al-main: var(--color-warning-main); --al-bg: var(--color-warning-light);
+  --al-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z'/%3E%3C/svg%3E");
+}
+.ds-alert.success {
+  --al-main: var(--color-success-main); --al-bg: var(--color-success-light);
+  --al-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/%3E%3C/svg%3E");
+}
+.ds-alert.ai {
+  --al-main: var(--color-ai-purple-700); --al-bg: var(--color-ai-purple-50);
+  --al-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19 9l1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25L19 9zm-7.5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12l-5.5-2.5zM19 15l-1.25 2.75L15 19l2.75 1.25L19 23l1.25-2.75L23 19l-2.75-1.25L19 15z'/%3E%3C/svg%3E");
+}
+
+/* ── icon (masked status glyph) ──────────────────────────── */
+.ds-alert-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  background-color: var(--al-main);
+  -webkit-mask: var(--al-glyph) center / contain no-repeat;
+          mask: var(--al-glyph) center / contain no-repeat;
+}
+
+/* ── main (body ↔ actions) ───────────────────────────────── */
+.ds-alert-main {
+  flex-grow: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: row;         /* row (default): body left, actions right */
+  align-items: center;
+  gap: 8px 12px;
+}
+.ds-alert.col .ds-alert-main {
+  flex-direction: column;      /* column: actions stacked under body */
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.ds-alert-body { flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.ds-alert-title {
+  font-size: 16px; line-height: 22px; font-weight: 500;
+  color: #333333;              /* design title grey (no palette token) */
+}
+.ds-alert-desc {
+  font-size: 14px; line-height: 18px; font-weight: 400;
+  color: var(--color-grey-900);
+}
+
+/* ── actions (xsmall grey-900 buttons — see button.css) ──── */
+.ds-alert-actions { display: flex; flex-direction: row; gap: 8px; flex-shrink: 0; align-items: center; }
+
+/* ── close / dismiss (masked X) ──────────────────────────── */
+.ds-alert-close {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: inline-flex;
+}
+.ds-alert-close::after {
+  content: "";
+  width: 20px; height: 20px; margin: auto;
+  background-color: var(--color-grey-900);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.ds-alert-close:hover::after { opacity: 0.72; }
+
+/* ── copy (masked copy → check) ───────────────────────────
+   An alternative to the dismiss X for alerts whose content is a payload the user
+   needs to paste elsewhere (a diagnostic/error dump — see ResponseSteps' error
+   alert): same 24px slot and hover as .ds-alert-close, and on click alert.js
+   swaps the glyph to a check for 3s, matching ResponseTypography's code-block
+   copy button. Use INSTEAD of .ds-alert-close, never both. */
+.ds-alert-copy {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: inline-flex;
+}
+.ds-alert-copy::after {
+  content: "";
+  width: 14px; height: 14px; margin: auto;
+  background-color: var(--color-grey-900);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.ds-alert-copy:hover::after { opacity: 0.72; }
+.ds-alert-copy.copied { pointer-events: none; }
+.ds-alert-copy.copied::after {
+  width: 14px; height: 14px;
+  background-color: var(--color-success-main);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+/* Snackbar-style action placement: the button sits right-aligned BELOW the body
+   (pair with .col on the alert). */
+.ds-alert-actions.end { align-self: flex-end; }
+
+/* ── EXPANDABLE variant ──────────────────────────────────── */
+/* collapsed: clamp the description to 2 lines; expanded (.open): full */
+.ds-alert.expandable .ds-alert-desc {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.ds-alert.expandable.open .ds-alert-desc {
+  display: block;
+  -webkit-line-clamp: none;
+  overflow: visible;
+}
+/* extra content only visible once expanded */
+.ds-alert-more { display: none; margin-top: 2px; }
+.ds-alert.expandable.open .ds-alert-more { display: block; }
+.ds-alert-more ul { margin: 0; padding-left: 20px; }
+.ds-alert-more li { font-size: 14px; line-height: 20px; color: var(--color-grey-900); }
+
+/* show more / hide toggle — chevron + label in status main color */
+.ds-alert-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--font-condensed);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+  color: var(--al-main);
+}
+.ds-alert-toggle::before {
+  content: "";
+  width: 16px; height: 16px;
+  background-color: var(--al-main);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z'/%3E%3C/svg%3E") center / contain no-repeat;
+  transition: transform 0.15s ease;
+}
+.ds-alert.open .ds-alert-toggle::before { transform: rotate(180deg); }
+/* label swaps via ::after content driven by .open */
+.ds-alert-toggle .al-more { display: inline; }
+.ds-alert-toggle .al-less { display: none; }
+.ds-alert.open .ds-alert-toggle .al-more { display: none; }
+.ds-alert.open .ds-alert-toggle .al-less { display: inline; }
+
+/* ── FILLED type (solid status-main fill, light content) ─────
+   The Filled counterpart to the default OUTLINED look (Inline /
+   Expandable). Solid --al-main background, white text,
+   white icon. Filled uses the OUTLINED status glyphs (Outlined uses
+   the filled badges). Persistent = Filled + the full-width 56px bar
+   (the geometry-only block just below). */
+.ds-alert.filled,
+.ds-alert.persistent {
+  background: var(--al-main);
+  border-color: var(--al-main);
+}
+.ds-alert.filled .ds-alert-icon,
+.ds-alert.persistent .ds-alert-icon { background-color: var(--color-common-white); }
+.ds-alert.filled .ds-alert-title,
+.ds-alert.persistent .ds-alert-title { color: var(--color-common-white); font-weight: 600; }
+.ds-alert.filled .ds-alert-desc,
+.ds-alert.persistent .ds-alert-desc  { color: var(--color-common-white); }
+.ds-alert.filled .ds-alert-close::after,
+.ds-alert.persistent .ds-alert-close::after { background-color: var(--color-common-white); }
+.ds-alert.filled .ds-alert-toggle,
+.ds-alert.persistent .ds-alert-toggle { color: var(--color-common-white); }
+.ds-alert.filled .ds-alert-toggle::before,
+.ds-alert.persistent .ds-alert-toggle::before { background-color: var(--color-common-white); }
+/* Filled uses OUTLINED status glyphs (filled badges are for the Outlined type) */
+.ds-alert.filled.info,    .ds-alert.persistent.info    { --al-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z'/%3E%3C/svg%3E"); }
+.ds-alert.filled.error,   .ds-alert.persistent.error   { --al-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.48 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z'/%3E%3C/svg%3E"); }
+.ds-alert.filled.warning, .ds-alert.persistent.warning { --al-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 5.99L19.53 19H4.47L12 5.99M12 2L1 21h22L12 2zm1 14h-2v2h2v-2zm0-6h-2v4h2v-4z'/%3E%3C/svg%3E"); }
+.ds-alert.filled.success, .ds-alert.persistent.success { --al-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm4.59-12.42L10 14.17l-2.59-2.58L6 13l4 4 8-8z'/%3E%3C/svg%3E"); }
+/* Warning Filled/Persistent: solid orange fails AA contrast with white text,
+   so the TEXT (title/desc + expandable toggle) and the TEXT (ACTION) button go
+   grey-900. Icons and contained/outlined buttons stay white. */
+.ds-alert.filled.warning .ds-alert-title,    .ds-alert.persistent.warning .ds-alert-title,
+.ds-alert.filled.warning .ds-alert-desc,     .ds-alert.persistent.warning .ds-alert-desc,
+.ds-alert.filled.warning .ds-alert-toggle,   .ds-alert.persistent.warning .ds-alert-toggle,
+.ds-alert.filled.warning .ds-alert-actions .btn-text,
+.ds-alert.persistent.warning .ds-alert-actions .btn-text { color: var(--color-grey-900); }
+.ds-alert.filled.warning .ds-alert-toggle::before,
+.ds-alert.persistent.warning .ds-alert-toggle::before { background-color: var(--color-grey-900); }
+/* filled action buttons: white contained (dark text) + white outlined */
+.ds-alert.filled .ds-alert-actions .btn-contained,
+.ds-alert.persistent .ds-alert-actions .btn-contained {
+  background: var(--color-common-white); color: var(--color-grey-900);
+}
+.ds-alert.filled .ds-alert-actions .btn-contained:hover,
+.ds-alert.persistent .ds-alert-actions .btn-contained:hover { background: rgba(255,255,255,0.88); }
+.ds-alert.filled .ds-alert-actions .btn-outlined,
+.ds-alert.persistent .ds-alert-actions .btn-outlined {
+  background: transparent; color: var(--color-common-white); border-color: var(--color-common-white);
+}
+.ds-alert.filled .ds-alert-actions .btn-outlined:hover,
+.ds-alert.persistent .ds-alert-actions .btn-outlined:hover { background: rgba(255,255,255,0.14); }
+
+/* ── PERSISTENT structure (Filled + full-width 56px bar) ───── */
+.ds-alert.persistent {
+  height: 56px;
+  padding: 0 16px;
+  gap: var(--spacing-40);                     /* 12px */
+  border-radius: 0;
+  align-items: center;
+  border: none;
+}
+.ds-alert.persistent .ds-alert-main { align-items: center; }

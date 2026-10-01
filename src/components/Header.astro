@@ -1,0 +1,155 @@
+---
+import { icons } from '../lib/icons';
+
+const langs = [
+  { code: 'en', label: 'EN' },
+  { code: 'zh', label: '中文' },
+];
+---
+
+<header class="site-header">
+  <div class="container row">
+    <a class="wordmark" href={import.meta.env.BASE_URL}>Simon Shen</a>
+    <div class="actions">
+      <div class="ds-togglegroup xs rounded color-secondary lang" role="group" aria-label="Language">
+        {
+          langs.map((l, i) => (
+            <button
+              type="button"
+              class:list={['ds-togglebtn', { selected: i === 0 }]}
+              lang={l.code}
+              aria-pressed={i === 0 ? 'true' : 'false'}
+              data-lang={l.code}
+            >
+              {l.label}
+            </button>
+          ))
+        }
+      </div>
+      <button
+        type="button"
+        class="theme-toggle"
+        aria-label="Switch to dark mode"
+        title="Switch to dark mode"
+        aria-pressed="false"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+          <path class="icon-moon" fill="currentColor" d={icons.darkMode}></path>
+          <path class="icon-sun" fill="currentColor" d={icons.lightMode}></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    background: var(--site-inverse);
+  }
+  .row {
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .wordmark {
+    font-family: var(--font-condensed);
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--site-on-inverse);
+    text-decoration: none;
+  }
+  .wordmark:hover {
+    color: var(--site-on-inverse);
+  }
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  /* Mobile uses the `sm` size; tablet and desktop use `xs`. */
+  .ds-togglegroup.xs.lang .ds-togglebtn {
+    height: 28px;
+    font-size: 14px;
+    padding: 0 14px;
+  }
+  .theme-toggle {
+    flex: none;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid rgb(var(--color-common-white-rgb) / 30%);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--site-on-inverse);
+    cursor: pointer;
+  }
+  .theme-toggle:hover {
+    background: rgb(var(--color-common-white-rgb) / 12%);
+  }
+  /* Moon in light mode, sun in dark mode. */
+  .icon-sun,
+  :global([data-theme='dark']) .icon-moon {
+    display: none;
+  }
+  :global([data-theme='dark']) .icon-sun {
+    display: inline;
+  }
+  @media (min-width: 600px) {
+    .row {
+      height: 64px;
+    }
+    .ds-togglegroup.xs.lang .ds-togglebtn {
+      height: 24px;
+      font-size: 13px;
+      padding: 0 12px;
+    }
+    .theme-toggle {
+      width: 36px;
+      height: 36px;
+    }
+  }
+</style>
+
+<script>
+  const root = document.documentElement;
+  const toggle = document.querySelector<HTMLButtonElement>('.theme-toggle')!;
+
+  function syncThemeButton() {
+    const isDark = root.dataset.theme === 'dark';
+    const label = isDark ? 'Switch to light mode' : 'Switch to dark mode';
+    toggle.setAttribute('aria-label', label);
+    toggle.title = label;
+    toggle.setAttribute('aria-pressed', String(isDark));
+  }
+
+  toggle.addEventListener('click', () => {
+    const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    try {
+      localStorage.setItem('ss-theme', next);
+    } catch {}
+    syncThemeButton();
+  });
+  syncThemeButton();
+
+  // Language switch: visual state only for now. Listen for `site:langchange` to hook up i18n later.
+  const langButtons = document.querySelectorAll<HTMLButtonElement>('.lang .ds-togglebtn');
+  langButtons.forEach((btn) =>
+    btn.addEventListener('click', () => {
+      langButtons.forEach((b) => {
+        const on = b === btn;
+        b.classList.toggle('selected', on);
+        b.setAttribute('aria-pressed', String(on));
+      });
+      document.dispatchEvent(new CustomEvent('site:langchange', { detail: { lang: btn.dataset.lang } }));
+    }),
+  );
+</script>

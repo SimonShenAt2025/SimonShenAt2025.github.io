@@ -1,0 +1,319 @@
+@import "tokens.css";
+/* ============================================================
+   TextField — self-contained stylesheet for the HTML-prototype path.
+   (The MUI path uses textfield-component.js theme override instead.)
+
+   Two label modes:
+   • INLINE / notched (default) — .tf-live wrapper:
+       <div class="tf-live">
+         <input class="tf-live-input" placeholder=" " />
+         <fieldset class="tf-fieldset"><legend><span>Label</span></legend></fieldset>
+         <label class="tf-live-label">Label</label>
+       </div>
+     The input needs placeholder=" " so :placeholder-shown drives the float.
+     Add .multiline on .tf-live and swap the input for a <textarea rows="n">;
+     add .shrink (MUI's InputLabelProps={{ shrink: true }}) to pin the label in
+     its notched position — the only way a placeholder is visible in an empty
+     field, and then the placeholder carries real text instead of " ".
+     State (for static demos): add .is-focus/.error/.disabled/.readonly/.required
+     on .tf-live; adornments: .has-start/.has-end + .tf-live-adorn.start/.end.
+   • OUTSIDE label — .tf wrapper (.tf-col / .tf-row) with .tf-label + .tf-input.
+
+   .tf-input states: .hover .focus .error .disabled · shape .rounded ·
+   .multiline (with .tf-textarea) · size .sm (36px) / .md (40px) or
+   .fixed-sm/.fixed-md. Helper text: .tf-helper (type-body5).
+   ============================================================ */
+
+/* outside-label wrapper */
+.tf { --tf-h: 36px; display: flex; flex-direction: column; gap: 6px; }
+.tf-label {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 20px;
+  color: #1a1a18;
+}
+.tf-label .req-star { color: #1a1a18; }
+.tf.tf-col { gap: 2px; }
+.tf.tf-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px 8px;
+  align-items: center;
+}
+.tf.tf-row .tf-label { white-space: nowrap; }
+
+.tf-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.23);
+  border-radius: 8px;
+  padding: 0 12px;
+  transition: border-color 120ms ease, border-width 120ms ease;
+}
+.tf-input.sm { min-height: var(--tf-h, 36px); }
+.tf-input.md { min-height: 40px; }
+.tf-input.fixed-sm { min-height: 36px; }
+.tf-input.fixed-md { min-height: 40px; }
+
+.tf-input input,
+.tf-input .fake-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 20px;
+  color: #1a1a18;
+  padding: 0;
+  min-width: 0;
+}
+.tf-input .fake-input.placeholder { color: #8a8a85; font-style: italic; }
+.tf-input input::placeholder { color: #8a8a85; font-style: italic; opacity: 1; }
+
+/* states */
+.tf-input.hover    { border-color: #1a1a18; }
+.tf-input.focus    { border-color: #1a1a18; border-width: 2px; padding: 0 11px; }
+.tf-input.error    { border-color: #cc0000; }
+.tf-input.disabled { border-color: rgba(0,0,0,0.12); border-style: dashed; background: #fafafa; }
+.tf-input.disabled .fake-input { color: rgba(0,0,0,0.38); }
+.tf-label.disabled { color: rgba(0,0,0,0.38); }
+
+/* required vertical bar */
+.tf-input.required::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 8px;
+  height: calc(100% - 16px);
+  width: 2px;
+  background: #cc0000;
+  border-radius: 50px;
+}
+
+/* rounded shape */
+.tf-input.rounded { border-radius: 50px; padding: 0 12px; }
+.tf-input.rounded.focus { padding: 0 11px; }
+
+/* adornments */
+.tf-adorn { width: 20px; height: 20px; flex-shrink: 0; color: #6a6a65; }
+.tf-adorn svg { width: 100%; height: 100%; display: block; }
+
+/* helper text — type-body5 (12/16/400) */
+.tf-helper {
+  font-family: var(--font-sans);
+  font-size: var(--type-body5-size);
+  line-height: var(--type-body5-line);
+  font-weight: var(--type-body5-weight);
+  letter-spacing: var(--type-body5-spacing);
+  color: #8a8a85;
+  margin-top: 2px;
+  margin-left: 2px;
+}
+.tf-helper.error { color: #cc0000; }
+
+/* multiline */
+.tf-input.multiline { align-items: stretch; padding-top: 8px; padding-bottom: 8px; padding-right: 0; min-height: 0; }
+.tf-input.multiline:focus-within { border-color: #1a1a18; }
+.tf-textarea {
+  flex: 1;
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 20px;
+  color: #1a1a18;
+  padding: 0;
+  margin: 0;
+  resize: none;
+  overflow-y: hidden;
+  min-width: 0;
+  display: block;
+}
+.tf-textarea::placeholder { color: #8a8a85; font-style: italic; opacity: 1; }
+/* ONE multiline scroll treatment for BOTH variants — the outlined .tf-textarea
+   and the notched .tf-live.multiline .tf-live-input. A 16px scrollbar whose
+   thumb is Grey 300 inset in a 4px white border (so it reads as a floating
+   pill), Grey 500 on hover, transparent track, and a STABLE GUTTER: the 16px
+   lane is reserved whether or not the field scrolls, so text never shifts
+   sideways when it starts to — and it is the field's right inset, which is why
+   the container drops its right padding. Growth up to maxRows and the switch to
+   overflow-y:auto are textfield.js's. */
+.tf-textarea,
+.tf-live.multiline .tf-live-input { scrollbar-gutter: stable; }
+.tf-textarea::-webkit-scrollbar,
+.tf-live.multiline .tf-live-input::-webkit-scrollbar { width: 16px; }
+.tf-textarea::-webkit-scrollbar-track,
+.tf-live.multiline .tf-live-input::-webkit-scrollbar-track { background: transparent; }
+.tf-textarea::-webkit-scrollbar-thumb,
+.tf-live.multiline .tf-live-input::-webkit-scrollbar-thumb {
+  background: var(--color-grey-300);
+  border-radius: 50px;
+  border: 4px solid var(--color-common-white);
+}
+.tf-textarea::-webkit-scrollbar-thumb:hover,
+.tf-live.multiline .tf-live-input::-webkit-scrollbar-thumb:hover { background: var(--color-grey-500); }
+
+/* ── INLINE (notched) label — default; live & interactive ── */
+.tf-live { position: relative; }
+.tf-live-input {
+  display: block;
+  width: 100%;
+  min-height: 36px;
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 20px;
+  color: #1a1a18;
+  padding: 0 12px;
+  position: relative;
+  z-index: 1;
+}
+.tf-live-input::placeholder { color: transparent; font-style: italic; opacity: 1; }
+.tf-live-input:focus::placeholder { color: #8a8a85; }
+.tf-fieldset {
+  position: absolute;
+  inset: -6px 0 0 0;
+  margin: 0;
+  padding: 0 8px;
+  border: 1px solid rgba(0,0,0,0.23);
+  border-radius: 8px;
+  pointer-events: none;
+  transition: border-color 120ms ease;
+}
+.tf-fieldset legend {
+  padding: 0;
+  font-size: 12px;
+  line-height: 11px;
+  max-width: 0;
+  white-space: nowrap;
+  visibility: hidden;
+  transition: max-width 100ms ease;
+}
+.tf-fieldset legend span { display: inline-block; padding: 0 6px; }
+.tf-live-label {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: normal;
+  color: #6a6a65;
+  pointer-events: none;
+  transition: top 120ms ease, left 120ms ease, font-size 120ms ease, color 120ms ease, transform 120ms ease;
+}
+/* floated: focused OR has value */
+.tf-live-input:focus ~ .tf-fieldset legend,
+.tf-live-input:not(:placeholder-shown) ~ .tf-fieldset legend { max-width: 100%; }
+.tf-live-input:focus ~ .tf-live-label,
+.tf-live-input:not(:placeholder-shown) ~ .tf-live-label {
+  top: -7px;
+  left: 14px;
+  transform: none;
+  font-size: 12px;
+}
+.tf-live-input:focus ~ .tf-fieldset { border-color: #1a1a18; border-width: 2px; }
+.tf-live-input:focus ~ .tf-live-label { color: #1a1a18; }
+
+/* adornments on the inline variant */
+.tf-live-adorn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  color: #6a6a65;
+  z-index: 2;
+  pointer-events: none;
+}
+.tf-live-adorn svg { width: 100%; height: 100%; display: block; }
+.tf-live-adorn.start { left: 12px; }
+.tf-live-adorn.end { right: 12px; }
+.tf-live.has-start .tf-live-input { padding-left: 40px; }
+.tf-live.has-end .tf-live-input { padding-right: 40px; }
+.tf-live.has-start .tf-live-label { left: 40px; }
+.tf-live.has-start .tf-live-input:focus ~ .tf-live-label,
+.tf-live.has-start .tf-live-input:not(:placeholder-shown) ~ .tf-live-label { left: 14px; }
+
+/* inline-label state modifiers (for static state demos) */
+.tf-live:hover > .tf-fieldset { border-color: #1a1a18; }
+.tf-live.is-focus > .tf-fieldset { border-color: #1a1a18; border-width: 2px; }
+.tf-live.is-focus > .tf-fieldset legend { max-width: 100%; }
+.tf-live.is-focus > .tf-live-label {
+  top: -7px; left: 14px; transform: none; font-size: 12px; color: #1a1a18;
+}
+.tf-live.error > .tf-fieldset { border-color: #cc0000; }
+.tf-live.error .tf-live-label { color: #cc0000; }
+
+/* ── inline label + multiline ──
+   A <textarea> in the notched variant. The resting label and the notch anchor to
+   the FIRST LINE, not the box's vertical middle: on a 4-row field, top:50% drops
+   the resting label into the middle of the text.
+   It is the SAME multiline field as the outlined variant, so it is built the
+   same way: THE WRAPPER OWNS THE VERTICAL INSET AND THE SCROLLBAR'S INSET, not
+   the textarea's padding. That is the whole fix for two bugs this variant had:
+     • a textarea's padding is INSIDE its scroll box, so 8px of padding-top
+       scrolled away with the text — a scrolled line ran up under the floated
+       label sitting on the top border. The 8px now lives on `.tf-live.multiline`,
+       outside the scroll box, so it is a hard clip edge the text can never
+       cross. With the fieldset's -6px top overhang that puts the text 14px below
+       the outline (MUI is top-heavy here for the same reason — the notch) and
+       8px above the bottom.
+     • a scrollbar is laid out at the INNER BORDER EDGE, so padding-right on the
+       textarea does not move it — the 4px white ring of the thumb painted over
+       the fieldset's border (and the textarea has z-index:1, so it won over it).
+       2px of wrapper padding insets the whole scroll lane instead, clearing the
+       border at its focused 2px width too.
+   Plus no resize handle: the height is textfield.js's, capped at maxRows. */
+.tf-live.multiline { padding: 8px 2px 8px 0; }
+.tf-live.multiline .tf-live-input { padding: 0 0 0 12px; resize: none; min-height: 0; }
+/* the resting label rides the first line, which the wrapper has moved to 8px */
+.tf-live.multiline .tf-live-label { top: 8px; transform: none; }
+
+.tf-live.multiline .tf-live-input:focus ~ .tf-live-label,
+.tf-live.multiline .tf-live-input:not(:placeholder-shown) ~ .tf-live-label { top: -7px; }
+
+/* ── shrink — MUI's InputLabelProps={{ shrink: true }} ──
+   The label is pinned in its notched position whether or not the field has a
+   value. This is the ONLY way a placeholder can be visible in an empty field:
+   at rest the label itself sits in that space, so the canonical DS placeholder
+   (grey italic) only appears once the label is out of the way. */
+.tf-live.shrink > .tf-fieldset legend { max-width: 100%; }
+.tf-live.shrink > .tf-live-label { top: -7px; left: 14px; transform: none; font-size: 12px; }
+.tf-live.shrink .tf-live-input::placeholder { color: #8a8a85; font-style: italic; opacity: 1; }
+.tf-live.error .tf-live-input:focus ~ .tf-fieldset { border-color: #cc0000; }
+.tf-live.disabled > .tf-fieldset { border-color: rgba(0,0,0,0.12); border-style: dashed; }
+.tf-live.disabled .tf-live-input { color: rgba(0,0,0,0.38); cursor: default; }
+.tf-live.disabled .tf-live-label { color: rgba(0,0,0,0.38); }
+.tf-live.required::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 8px;
+  height: calc(100% - 16px);
+  width: 2px;
+  background: #cc0000;
+  border-radius: 50px;
+  z-index: 2;
+}
+/* keep semantic states from darkening on hover */
+.tf-live.error:hover > .tf-fieldset { border-color: #cc0000; }
+.tf-live.disabled:hover > .tf-fieldset { border-color: rgba(0,0,0,0.12); }
+
+/* read only — bottom border only, default border color */
+.tf-live.readonly > .tf-fieldset {
+  border: none;
+  border-bottom: 1px solid rgba(0,0,0,0.23);
+  border-radius: 8px;
+}
+.tf-live.readonly:hover > .tf-fieldset { border-bottom-color: rgba(0,0,0,0.23); }
+.tf-live.readonly .tf-live-input { cursor: default; }

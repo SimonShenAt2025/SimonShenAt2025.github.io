@@ -1,0 +1,292 @@
+---
+/**
+ * Long-form Markdown body. The Markdown pipeline (src/lib/markdown/plugins.ts) emits
+ * plain elements plus a few hooks (.ds-alert, .figure, .ext-link, .code-block);
+ * everything is styled here with global rules scoped under `.prose`.
+ */
+---
+
+<article class="prose">
+  <slot />
+</article>
+
+<style is:global>
+  .prose {
+    font-family: var(--font-sans);
+    font-size: 18px;
+    line-height: 30px;
+    color: var(--site-text);
+    text-wrap: pretty;
+
+    /* Shiki css-variables theme (Astro prefixes it --astro-code-) → site code tokens. */
+    --astro-code-foreground: var(--site-text);
+    --astro-code-background: transparent;
+    --astro-code-token-keyword: var(--site-code-kw);
+    --astro-code-token-string: var(--site-code-str);
+    --astro-code-token-string-expression: var(--site-code-str);
+    --astro-code-token-comment: var(--site-code-com);
+    --astro-code-token-constant: var(--site-code-num);
+    --astro-code-token-function: var(--site-text);
+    --astro-code-token-parameter: var(--site-text);
+    --astro-code-token-punctuation: var(--site-text);
+    --astro-code-token-link: var(--site-link);
+  }
+  .prose .code-block [style*='token-comment'] {
+    font-style: italic;
+  }
+
+  .prose p {
+    margin: 0 0 16px;
+  }
+  .prose > p:first-child {
+    margin-bottom: 20px;
+  }
+  .prose strong {
+    font-weight: 600;
+  }
+
+  .prose h2 {
+    margin: 48px 0 12px;
+    padding-top: 32px;
+    border-top: 1px dashed var(--site-border);
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 600;
+    scroll-margin-top: 24px;
+  }
+  .prose h3 {
+    margin: 28px 0 4px;
+    font-size: 18px;
+    line-height: 24px;
+    font-weight: 600;
+    scroll-margin-top: 24px;
+  }
+
+  /* Steps: numbered circles via CSS counters. */
+  .prose ol {
+    list-style: none;
+    margin: 0 0 16px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    counter-reset: step;
+  }
+  .prose ol > li {
+    position: relative;
+    min-height: 30px;
+    padding-left: 42px;
+    counter-increment: step;
+  }
+  .prose ol > li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 1px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--color-secondary-main);
+    color: var(--color-common-white);
+    font-size: 14px;
+    line-height: 28px;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .prose ul {
+    margin: 0 0 16px;
+    padding-left: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .prose li > p {
+    margin: 0;
+  }
+
+  .prose :not(pre) > code {
+    font-family: Menlo, Consolas, 'SF Mono', 'Cascadia Code', 'Roboto Mono', monospace;
+    font-size: 15px;
+    padding: 2px 6px;
+    border-radius: var(--radius-xs);
+    background: var(--site-subtle);
+    border: 1px solid var(--site-border);
+  }
+
+  .prose a {
+    color: var(--site-link);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
+  .prose a:hover {
+    color: var(--site-text);
+  }
+  .prose a.ext-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  /* Callouts (Stridyn Alert, inline, outlined). */
+  .prose .ds-alert {
+    margin: 24px 0;
+  }
+  .prose .ds-alert-desc {
+    font-size: 15px;
+    line-height: 22px;
+  }
+  .prose .ds-alert-desc p {
+    margin: 0;
+  }
+  .prose .ds-alert-desc p + p {
+    margin-top: 8px;
+  }
+  .prose .ds-alert-desc code {
+    font-family: Menlo, Consolas, monospace;
+    font-size: 13px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+  }
+
+  /* Figures + lightbox trigger. */
+  .prose figure {
+    margin: 28px 0 32px;
+  }
+  .prose .figure-zoom {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 1px solid var(--site-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: none;
+    cursor: zoom-in;
+  }
+  .prose .figure-zoom img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .prose .figure-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--site-surface);
+    box-shadow: var(--elevation-4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--site-text);
+  }
+  .prose figcaption {
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--site-text-3);
+  }
+
+  /* Code blocks. */
+  .prose .code-block {
+    margin: 24px 0;
+    border: 1px solid var(--site-border);
+    border-radius: var(--radius-md);
+    background: var(--site-code-bg);
+    overflow: hidden;
+    font-family: var(--font-sans);
+  }
+  /* Command names (python, pip, cd …) take the keyword colour in shell snippets. */
+  .prose .code-block:is([data-language='bash'], [data-language='sh'], [data-language='shell'], [data-language='zsh'], [data-language='powershell']) {
+    --astro-code-token-function: var(--site-code-kw);
+  }
+  .prose .code-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 6px 8px 6px 16px;
+    border-bottom: 1px solid var(--site-border);
+    background: var(--site-surface);
+  }
+  .prose .code-lang {
+    font-family: Menlo, Consolas, 'SF Mono', 'Cascadia Code', 'Roboto Mono', monospace;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--site-text-3);
+    text-transform: lowercase;
+  }
+  .prose .code-copy {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 28px;
+    padding: 0 10px;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--site-text-2);
+  }
+  .prose .code-copy:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+  .prose .code-copy.copied {
+    color: var(--site-code-str);
+  }
+  .prose .code-block pre {
+    margin: 0;
+    padding: 16px 20px;
+    overflow-x: auto;
+  }
+  .prose .code-block pre code {
+    display: block;
+    font-family: Menlo, Consolas, 'SF Mono', 'Cascadia Code', 'Roboto Mono', monospace;
+    font-size: 14px;
+    line-height: 22px;
+    white-space: pre;
+    color: var(--site-text);
+  }
+</style>
+
+<script>
+  import { check as checkIcon, copy as copyIcon } from '../lib/icons';
+
+  document.querySelectorAll<HTMLButtonElement>('.prose .code-copy').forEach((btn) => {
+    const path = btn.querySelector('path')!;
+    const label = btn.querySelector('.code-copy-label')!;
+    const idleAria = btn.getAttribute('aria-label') ?? 'Copy code';
+    let timer: number | undefined;
+
+    btn.addEventListener('click', async () => {
+      const code = btn.closest('.code-block')?.querySelector('pre code')?.textContent ?? '';
+      try {
+        await navigator.clipboard.writeText(code);
+      } catch {
+        return;
+      }
+
+      btn.classList.add('copied');
+      path.setAttribute('d', checkIcon);
+      label.textContent = 'Copied';
+      btn.setAttribute('aria-label', 'Code copied to clipboard');
+
+      clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        btn.classList.remove('copied');
+        path.setAttribute('d', copyIcon);
+        label.textContent = 'Copy';
+        btn.setAttribute('aria-label', idleAria);
+      }, 2000);
+    });
+  });
+</script>

@@ -1,0 +1,90 @@
+@import "tokens.css";
+/* ============================================================
+   Chip — canonical chip / tag
+   Single source of truth for any chip: standalone tags and the
+   deletable chips inside a multiple Select. Maps to MUI MuiChip.
+   Tokens come from styles.css (radius / fonts).
+   ============================================================ */
+
+.ds-chip {
+  display: inline-flex;
+  width: fit-content;   /* size to content even inside a stretch parent (column flex / grid cell) — never stretch to full width */
+  align-items: center;
+  gap: 4px;
+  background: #e8e8e6;
+  border-radius: var(--radius-round);
+  height: 24px;
+  padding: 0 10px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: #1a1a18;
+  white-space: nowrap;
+}
+
+/* sizes */
+.ds-chip.xs { height: 20px; font-size: 11px; }
+.ds-chip.sm { height: 22px; font-size: 11px; }
+.ds-chip.md { height: 24px; font-size: 14px; }
+.ds-chip.lg { height: 32px; padding: 0 12px; font-size: 14px; }
+
+/* deletable — tighter right padding to seat the × */
+.ds-chip.deletable { padding-right: 4px; }
+
+/* delete affordance */
+.ds-chip-delete {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: rgba(0,0,0,0.4);
+  cursor: pointer;
+  /* delete glyph BAKED IN as a CSS mask — no sprite / <use href> dependency, so
+     a wrong or missing <symbol> id can never blank it. A legacy inner <svg> (if
+     a consumer still pastes one) is hidden below; the mask owns the shape. */
+  background-color: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a10 10 0 100 20 10 10 0 000-20zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a10 10 0 100 20 10 10 0 000-20zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.ds-chip-delete:hover { color: rgba(0,0,0,0.7); }
+.ds-chip-delete svg { display: none; }
+
+/* outlined variant — default border grey-900 */
+.ds-chip.outlined { background: transparent; border: 1px solid var(--color-grey-900); }
+
+/* ── Filled colors ── */
+.ds-chip.primary   { background: var(--color-info-main);    color: #ffffff; }
+.ds-chip.secondary { background: var(--color-grey-900);     color: #ffffff; }
+.ds-chip.error     { background: var(--color-error-main);   color: #ffffff; }
+.ds-chip.info      { background: var(--color-info-main);    color: #ffffff; }
+.ds-chip.success   { background: var(--color-success-main); color: #ffffff; }
+.ds-chip.warning   { background: var(--color-warning-main); color: #1a1a18; }
+/* delete icon contrast on dark filled colors */
+.ds-chip.primary .ds-chip-delete,
+.ds-chip.secondary .ds-chip-delete,
+.ds-chip.error .ds-chip-delete,
+.ds-chip.info .ds-chip-delete,
+.ds-chip.success .ds-chip-delete { color: rgba(255,255,255,0.7); }
+.ds-chip.primary .ds-chip-delete:hover,
+.ds-chip.secondary .ds-chip-delete:hover,
+.ds-chip.error .ds-chip-delete:hover,
+.ds-chip.info .ds-chip-delete:hover,
+.ds-chip.success .ds-chip-delete:hover { color: #ffffff; }
+
+/* ── Outlined colors (light fill + colored border) ── */
+.ds-chip.outlined.primary,
+.ds-chip.outlined.info    { border-color: var(--color-info-main);    background: var(--color-info-light); }
+.ds-chip.outlined.secondary { border-color: var(--color-grey-900);   background: transparent; }
+.ds-chip.outlined.success { border-color: var(--color-success-main); background: var(--color-success-light); }
+.ds-chip.outlined.error   { border-color: var(--color-error-main);   background: var(--color-error-light); }
+.ds-chip.outlined.warning { border-color: var(--color-warning-main); background: var(--color-warning-light); }
+.ds-chip.outlined.ai      { border-color: var(--color-ai-purple-500); background: var(--color-ai-purple-50); color: var(--color-ai-purple-700); }
+/* outlined text is always grey-900 (overrides the white from filled color rules) */
+.ds-chip.outlined { color: var(--color-grey-900); }
+
+/* disabled */
+.ds-chip.disabled { opacity: 0.5; pointer-events: none; }
+
+/* rectangular shape — sx={[{ shape: 'chipRectangular' }]} */
+.ds-chip.rectangular { border-radius: var(--radius-md); }
+/* xsmall rectangular: tighter corner + 2px less horizontal padding than the 10px default */
+.ds-chip.xs.rectangular { border-radius: 6px; padding-left: 8px; padding-right: 8px; }
+.ds-chip.xs.rectangular.deletable { padding-right: 4px; }

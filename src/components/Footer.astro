@@ -1,0 +1,32 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container row">
+    <span>© {year} Simon Shen · Auckland, New Zealand</span>
+    <span>Built with Astro · Hosted on GitHub Pages</span>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--site-inverse);
+  }
+  .row {
+    padding-top: 28px;
+    padding-bottom: 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 8px 24px;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--site-on-inverse-2);
+  }
+  @media (min-width: 600px) {
+    .row {
+      flex-direction: row;
+    }
+  }
+</style>

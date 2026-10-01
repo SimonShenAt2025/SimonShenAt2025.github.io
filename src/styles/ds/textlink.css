@@ -1,0 +1,60 @@
+@import "tokens.css";
+
+/* ============================================================
+   Text Link — inline text link with an optional trailing indicator icon.
+   The canonical inline link/action across the system (e.g. the Card's
+   "Action ›"). Manage text-link design here, once.
+     • sizes:   .sm (12px) · .md (14px) · .lg (16px)
+     • color:   .info (info-main) · .grey (grey-900)
+     • weight:  .medium (500) · .regular (400)
+     • icon:    .ds-textlink-ico — Linear (chevron) or Multiple (unfoldMore);
+                ALWAYS info-main, independent of the text color.
+   ============================================================ */
+.ds-textlink {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-family: var(--font-sans);
+  font-weight: 500;                 /* medium (default) */
+  color: var(--color-info-main);    /* default color */
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 1.2;
+}
+/* sizes */
+.ds-textlink.sm { font-size: 12px; }
+.ds-textlink.md { font-size: 14px; }
+.ds-textlink.lg { font-size: 16px; }
+/* color variants */
+.ds-textlink.info { color: var(--color-info-main); }
+.ds-textlink.grey { color: var(--color-grey-900); }
+/* weight variants */
+.ds-textlink.medium  { font-weight: 500; }
+.ds-textlink.regular { font-weight: 400; }
+/* trailing indicator icon — ALWAYS info-main, regardless of text color */
+.ds-textlink-ico { display: inline-flex; align-items: center; justify-content: center; color: var(--color-info-main); flex-shrink: 0; transition: transform 0.15s ease; }
+/* Linear (chevron) indicator nudges right on hover; Multiple (unfoldMore) does not */
+.ds-textlink.indicator-linear:hover .ds-textlink-ico { transform: translateX(2px); }
+.ds-textlink.sm .ds-textlink-ico svg { width: 14px; height: 14px; }
+.ds-textlink.md .ds-textlink-ico svg { width: 16px; height: 16px; }
+.ds-textlink.lg .ds-textlink-ico svg { width: 18px; height: 18px; }
+/* linear chevron baked in as a CSS mask on the svg element — no sprite /
+   <use href> dependency (the multiple/unfold indicator already uses inline
+   <path>s, so it's sprite-free). Size + hover translate are unchanged. */
+.ds-textlink-ico:not(.tl-multi) svg { background-color: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z'/%3E%3C/svg%3E") center / contain no-repeat; }
+.ds-textlink-ico:not(.tl-multi) svg use { display: none; }
+/* Multiple indicator — two overlaid chevrons (visually = UnfoldMore) so each
+   half can translate independently in exact CSS px. On hover the gap between
+   the up and down chevrons grows by 2px (up −1px, down +1px). */
+.ds-textlink-ico.tl-multi { position: relative; }
+.ds-textlink.sm .ds-textlink-ico.tl-multi { width: 14px; height: 14px; }
+.ds-textlink.md .ds-textlink-ico.tl-multi { width: 16px; height: 16px; }
+.ds-textlink.lg .ds-textlink-ico.tl-multi { width: 18px; height: 18px; }
+.ds-textlink-ico.tl-multi svg { position: absolute; inset: 0; width: 100%; height: 100%; transition: transform 0.15s ease; }
+.ds-textlink.indicator-multiple:hover .ds-textlink-ico .tl-up { transform: translateY(-1px); }
+.ds-textlink.indicator-multiple:hover .ds-textlink-ico .tl-down { transform: translateY(1px); }

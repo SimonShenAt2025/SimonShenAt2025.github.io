@@ -1,0 +1,69 @@
+@import "tokens.css";
+/* ============================================================
+   Button — self-contained stylesheet for the HTML-prototype path.
+   (The MUI path uses button-component.js theme override instead.)
+   Classes: .btn  +  variant .btn-contained/.btn-outlined/.btn-text
+            +  size .btn-xs/.btn-sm/.btn-md/.btn-lg
+            +  .btn-rounded · .btn-full · .disabled
+   Color: override --btn-main / --btn-hover / --btn-soft to recolor
+   (default = Secondary Main #1379ce). e.g.
+     <button class="btn btn-contained btn-md"
+             style="--btn-main:#cc0000;--btn-hover:#a30000;--btn-soft:rgba(204,0,0,0.05)">
+   ============================================================ */
+
+.btn {
+  /* default (Secondary Main) — override these three to recolor */
+  --btn-main: var(--color-secondary-main, #1379ce);
+  --btn-hover: #1068b5;
+  --btn-soft: rgba(19,121,206,0.05);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+  white-space: nowrap;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  outline: none;
+}
+
+/* sizes */
+.btn-xs { font-size: 14px; padding: 2px 8px;  min-height: 28px; }
+.btn-sm { font-size: 14px; padding: 4px 10px; min-height: 36px; }
+.btn-md { font-size: 14px; padding: 6px 16px; min-height: 40px; }
+.btn-lg { font-size: 16px; padding: 8px 22px; min-height: 48px; }
+
+.btn-xs .icon { width: 18px; height: 18px; }
+.btn-sm .icon { width: 18px; height: 18px; }
+.btn-md .icon { width: 20px; height: 20px; }
+.btn-lg .icon { width: 22px; height: 22px; }
+
+/* variants */
+.btn-contained       { background: var(--btn-main); color: #fff; min-width: 65px; }
+.btn-contained:hover { background: var(--btn-hover); }
+.btn-outlined        { background: transparent; color: var(--btn-main); border-color: var(--btn-main); min-width: 65px; }
+.btn-outlined:hover  { background: var(--btn-soft); }
+.btn-text            { background: transparent; color: var(--btn-main); }
+.btn-text:hover      { background: var(--btn-soft); }
+
+/* shape */
+.btn-rounded { border-radius: 50px; }
+/* rounded-variant size paddings (tighter than the squared sizes) */
+.btn-rounded.btn-xs { padding: 2px 12px; }
+.btn-rounded.btn-sm { padding: 2px 12px; }
+
+/* full width */
+.btn-full { width: 100%; }
+
+/* disabled */
+.btn-contained.disabled,
+.btn-contained:disabled { background: rgba(0,0,0,0.12); color: rgba(0,0,0,0.26); pointer-events: none; }
+.btn-outlined.disabled,
+.btn-outlined:disabled  { background: transparent; border-color: rgba(0,0,0,0.12); color: rgba(0,0,0,0.26); pointer-events: none; }
+.btn-text.disabled,
+.btn-text:disabled      { background: transparent; color: rgba(0,0,0,0.26); pointer-events: none; }
