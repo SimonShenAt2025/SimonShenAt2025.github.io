@@ -6,6 +6,8 @@ date: 2026-10-01
 summary: 用 Python 获取 YouTube 字幕、保存为文本并复制到剪贴板，再交给 Claude skill 生成简体中文总结和技术拆解。
 language: zh
 translationKey: youtube-transcript-ai-summary
+cover: ../images/youtube-transcript-ai-summary-zh.webp
+coverAlt: PowerShell 显示 yt.py 已将 30,971 个字符的字幕复制到剪贴板并保存为文本文件
 ---
 
 这个流程分为两步：先用 Python 脚本获取视频字幕并复制到剪贴板，再将字幕粘贴到 Claude，由 `youtube-ai-summary` skill 生成简体中文总结，并梳理视频中提到的技术、工具、模型、框架和服务。

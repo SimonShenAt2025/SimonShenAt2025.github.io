@@ -4,6 +4,8 @@ type: Guide
 tags: [python, youtube, transcript, ai, automation, windows]
 date: 2026-10-01
 summary: Fetch a YouTube transcript with Python, save it to a text file, and copy it to the clipboard for a Claude skill to summarize in Simplified Chinese.
+cover: ./images/youtube-transcript-ai-summary-en.webp
+coverAlt: PowerShell showing yt.py copied a YouTube transcript to the clipboard and saved B7RBbAlBmXU.txt (30,971 characters)
 ---
 
 This workflow has two stages: a Python script fetches a video's captions and copies them to the clipboard, then Claude's `youtube-ai-summary` skill turns the transcript into a Simplified Chinese summary and a breakdown of the technologies mentioned.
