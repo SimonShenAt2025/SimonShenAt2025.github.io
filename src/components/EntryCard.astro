@@ -1,14 +1,16 @@
 ---
 import { Image } from 'astro:assets';
-import { TYPE_META, entryUrl, formatDate, isoDate, type Entry } from '../lib/entries';
+import { TYPE_META, entryUrl, isoDate, type Entry } from '../lib/entries';
+import { formatLocalizedDate, typeLabel, type Locale } from '../lib/i18n';
 
 interface Props {
   entry: Entry;
+  language: Locale;
   /** The first card of the current result set spans two columns on tablet and desktop. */
   featured?: boolean;
 }
 
-const { entry, featured = false } = Astro.props;
+const { entry, language, featured = false } = Astro.props;
 const { title, type, tags, date, summary, cover, coverAlt, status } = entry.data;
 const meta = TYPE_META[type];
 ---
@@ -41,13 +43,13 @@ const meta = TYPE_META[type];
   }
   <div class="body">
     <div class="meta">
-      <span class="type"><span class="dot" aria-hidden="true"></span>{type}</span>
+      <span class="type"><span class="dot" aria-hidden="true"></span>{typeLabel(type, language)}</span>
       {status && <span class="ds-chip xs outlined warning">{status}</span>}
-      <time datetime={isoDate(date)}>{formatDate(date)}</time>
+      <time datetime={isoDate(date)}>{formatLocalizedDate(date, language)}</time>
     </div>
     <h2 class="title">{title}</h2>
     <p class="summary">{summary}</p>
-    <ul class="tags" aria-label="Tags">
+    <ul class="tags" aria-label={language === 'zh' ? '标签' : 'Tags'}>
       {tags.map((t) => <li>#{t}</li>)}
     </ul>
   </div>

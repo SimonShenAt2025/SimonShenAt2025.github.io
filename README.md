@@ -14,7 +14,7 @@ Simon Shen's personal site: a shelf of tools, ideas, apps and guides. It's a sta
 
 ## Adding an entry
 
-Each entry is one Markdown file in `src/content/entries/`. The file name becomes the URL: `bruno.md` is served at `/entries/bruno/`.
+Each entry has an English Markdown file in `src/content/entries/` and a Simplified Chinese companion in `src/content/entries/zh/`. The English file name remains the canonical URL slug: `bruno.md` is served at `/entries/bruno/`, and its Chinese translation at `/zh/entries/bruno/`.
 
 ```md
 ---
@@ -30,6 +30,19 @@ status: In progress        # optional chip, e.g. for App entries
 ```
 
 Entries are sorted newest first. The detail page builds its table of contents from the `##` headings when there are two or more.
+
+### Bilingual entries
+
+English entries omit `language` (it defaults to `en`). Each Chinese companion uses the same filename under `zh/`, sets `language: zh`, and sets `translationKey` to the English filename without `.md`. Keep `type`, `date`, and canonical English `tags` the same in both files; translate the title, summary, optional status, cover alt text, and body. This lets the language switch open the matching translation while preserving the canonical entry URL.
+
+For example, `src/content/entries/bruno.md` pairs with `src/content/entries/zh/bruno.md`:
+
+```yaml
+language: zh
+translationKey: bruno
+```
+
+The Chinese home page is `/zh/`. When a translated entry uses a shared image, reference it relative to its Markdown file, for example `../images/bruno-cover.png`.
 
 ### Markdown features
 

@@ -1,0 +1,40 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import PostLayout from '../../../layouts/PostLayout.astro';
+import { entryUrl, getSortedEntries } from '../../../lib/entries';
+
+export const getStaticPaths = (async () => {
+  const entries = (await getSortedEntries('zh')).filter((entry) => entry.data.translationKey);
+  const englishEntries = await getSortedEntries('en');
+
+  return entries.map((entry, i) => {
+    const englishEntry = englishEntries.find((candidate) => candidate.id === entry.data.translationKey);
+    return {
+      params: { id: entry.data.translationKey! },
+      props: {
+        entry,
+        prev: entries[i + 1],
+        next: entries[i - 1],
+        englishUrl: englishEntry ? entryUrl(englishEntry) : '',
+        chineseUrl: entryUrl(entry),
+      },
+    };
+  });
+}) satisfies GetStaticPaths;
+
+const { entry, prev, next, englishUrl, chineseUrl } = Astro.props;
+const { Content, headings } = await render(entry);
+---
+
+<PostLayout
+  entry={entry}
+  headings={headings}
+  language="zh"
+  englishUrl={englishUrl}
+  chineseUrl={chineseUrl}
+  prev={prev}
+  next={next}
+>
+  <Content />
+</PostLayout>

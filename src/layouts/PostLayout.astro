@@ -6,43 +6,54 @@ import Prose from '../components/Prose.astro';
 import PrevNext from '../components/PrevNext.astro';
 import Lightbox from '../components/Lightbox.astro';
 import { icons } from '../lib/icons';
-import { TYPE_META, formatDate, isoDate, type Entry } from '../lib/entries';
+import { TYPE_META, isoDate, type Entry } from '../lib/entries';
+import { formatLocalizedDate, homeUrl, MESSAGES, type Locale, typeLabel } from '../lib/i18n';
 
 interface Props {
   entry: Entry;
   headings: MarkdownHeading[];
+  language: Locale;
+  englishUrl: string;
+  chineseUrl: string;
   prev?: Entry;
   next?: Entry;
 }
 
-const { entry, headings, prev, next } = Astro.props;
+const { entry, headings, language, englishUrl, chineseUrl, prev, next } = Astro.props;
 const { title, type, tags, date, summary, cover, coverAlt } = entry.data;
 const meta = TYPE_META[type];
+const copy = MESSAGES[language];
 
 // Headings in the guide carry their own numbers ("1. Install Python"); the TOC draws the number in a circle.
 const toc = headings
   .filter((h) => h.depth === 2)
   .map((h, i) => ({ slug: h.slug, n: i + 1, label: h.text.replace(/^\s*\d+[.)]\s*/, '') }));
-const tocLabel = type === 'Guide' ? 'In this guide' : 'On this page';
+const tocLabel = type === 'Guide' ? copy.inThisGuide : copy.onThisPage;
 ---
 
-<BaseLayout title={`${title} · Simon Shen`} description={summary}>
+<BaseLayout
+  title={`${title} · Simon Shen`}
+  description={summary}
+  language={language}
+  englishUrl={englishUrl}
+  chineseUrl={chineseUrl}
+>
   <section class:list={['hero', { 'no-cover': !cover }]} style={`--type-main:${meta.main};--type-tint:${meta.tint}`}>
     <div class="container hero-inner">
-      <a href={import.meta.env.BASE_URL} class="ds-textlink md grey back">
+      <a href={homeUrl(language)} class="ds-textlink md grey back">
         <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d={icons.arrowBack}></path></svg>
-        All entries
+        {copy.allEntries}
       </a>
       <header class="head">
         <p class="eyebrow">
           <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d={meta.icon}></path></svg>
-          {type}
+          {typeLabel(type, language)}
           <span class="sep" aria-hidden="true">·</span>
-          <time datetime={isoDate(date)}>{formatDate(date)}</time>
+          <time datetime={isoDate(date)}>{formatLocalizedDate(date, language)}</time>
         </p>
         <h1>{title}</h1>
         <p class="lead">{summary}</p>
-        <ul class="tags" aria-label="Tags">
+        <ul class="tags" aria-label={copy.tags}>
           {tags.map((t) => <li class="ds-chip sm">#{t}</li>)}
         </ul>
       </header>
@@ -88,7 +99,7 @@ const tocLabel = type === 'Guide' ? 'In this guide' : 'On this page';
         <slot />
       </Prose>
     </div>
-    <PrevNext prev={prev} next={next} />
+    <PrevNext language={language} prev={prev} next={next} />
   </main>
   <Lightbox />
 </BaseLayout>

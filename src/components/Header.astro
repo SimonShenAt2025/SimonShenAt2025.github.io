@@ -1,37 +1,49 @@
 ---
 import { icons } from '../lib/icons';
+import { homeUrl, MESSAGES, type Locale } from '../lib/i18n';
 
+interface Props {
+  language: Locale;
+  englishUrl: string;
+  chineseUrl: string;
+}
+
+const { language, englishUrl, chineseUrl } = Astro.props;
+const copy = MESSAGES[language];
 const langs = [
-  { code: 'en', label: 'EN' },
-  { code: 'zh', label: '中文' },
+  { code: 'en' as const, label: 'EN', href: englishUrl },
+  { code: 'zh' as const, label: '中文', href: chineseUrl },
 ];
 ---
 
 <header class="site-header">
   <div class="container row">
-    <a class="wordmark" href={import.meta.env.BASE_URL}>Simon Shen</a>
+    <a class="wordmark" href={homeUrl(language)}>Simon Shen</a>
     <div class="actions">
-      <div class="ds-togglegroup xs rounded color-secondary lang" role="group" aria-label="Language">
+      <nav class="ds-togglegroup xs rounded color-secondary lang" aria-label={copy.language}>
         {
-          langs.map((l, i) => (
-            <button
-              type="button"
-              class:list={['ds-togglebtn', { selected: i === 0 }]}
+          langs.map((l) => (
+            <a
+              class:list={['ds-togglebtn', { selected: l.code === language }]}
+              href={l.href || undefined}
               lang={l.code}
-              aria-pressed={i === 0 ? 'true' : 'false'}
-              data-lang={l.code}
+              aria-current={l.code === language ? 'page' : undefined}
+              aria-disabled={!l.href ? 'true' : undefined}
+              tabindex={l.href ? 0 : -1}
             >
               {l.label}
-            </button>
+            </a>
           ))
         }
-      </div>
+      </nav>
       <button
         type="button"
         class="theme-toggle"
-        aria-label="Switch to dark mode"
-        title="Switch to dark mode"
+        aria-label={copy.switchToDark}
+        title={copy.switchToDark}
         aria-pressed="false"
+        data-switch-to-dark={MESSAGES[language].switchToDark}
+        data-switch-to-light={MESSAGES[language].switchToLight}
       >
         <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
           <path class="icon-moon" fill="currentColor" d={icons.darkMode}></path>
@@ -76,6 +88,7 @@ const langs = [
     height: 28px;
     font-size: 14px;
     padding: 0 14px;
+    text-decoration: none;
   }
   .theme-toggle {
     flex: none;
@@ -124,7 +137,7 @@ const langs = [
 
   function syncThemeButton() {
     const isDark = root.dataset.theme === 'dark';
-    const label = isDark ? 'Switch to light mode' : 'Switch to dark mode';
+    const label = isDark ? toggle.dataset.switchToLight! : toggle.dataset.switchToDark!;
     toggle.setAttribute('aria-label', label);
     toggle.title = label;
     toggle.setAttribute('aria-pressed', String(isDark));
@@ -139,17 +152,4 @@ const langs = [
     syncThemeButton();
   });
   syncThemeButton();
-
-  // Language switch: visual state only for now. Listen for `site:langchange` to hook up i18n later.
-  const langButtons = document.querySelectorAll<HTMLButtonElement>('.lang .ds-togglebtn');
-  langButtons.forEach((btn) =>
-    btn.addEventListener('click', () => {
-      langButtons.forEach((b) => {
-        const on = b === btn;
-        b.classList.toggle('selected', on);
-        b.setAttribute('aria-pressed', String(on));
-      });
-      document.dispatchEvent(new CustomEvent('site:langchange', { detail: { lang: btn.dataset.lang } }));
-    }),
-  );
 </script>

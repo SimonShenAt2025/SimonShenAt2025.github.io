@@ -1,11 +1,19 @@
 ---
+import { MESSAGES, type Locale } from '../lib/i18n';
+
+interface Props {
+  language: Locale;
+}
+
+const { language } = Astro.props;
+const copy = MESSAGES[language];
 const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
   <div class="container row">
-    <span>© {year} Simon Shen · Auckland, New Zealand</span>
-    <span>Built with Astro · Hosted on GitHub Pages</span>
+    <span>© {year} Simon Shen · {copy.footerLocation}</span>
+    <span>{copy.footerHosting}</span>
   </div>
 </footer>
 

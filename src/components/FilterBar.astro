@@ -2,12 +2,15 @@
 import { icons } from '../lib/icons';
 import { TYPE_META, type Entry, type EntryType } from '../lib/entries';
 import { ENTRY_TYPES } from '../content.config';
+import { MESSAGES, typeLabel, type Locale } from '../lib/i18n';
 
 interface Props {
   entries: Entry[];
+  language: Locale;
 }
 
-const { entries } = Astro.props;
+const { entries, language } = Astro.props;
+const copy = MESSAGES[language];
 
 const types: { key: 'All' | EntryType; color: string; count: number }[] = [
   { key: 'All', color: 'var(--site-text)', count: entries.length },
@@ -19,13 +22,13 @@ const types: { key: 'All' | EntryType; color: string; count: number }[] = [
 ];
 
 const tags = [...new Set(entries.flatMap((e) => e.data.tags))].sort((a, b) => a.localeCompare(b));
-const countLabel = (n: number) => (n === 1 ? '1 entry' : `${n} entries`);
+const countLabel = (n: number) => (language === 'zh' ? `${n} 篇条目` : `${n} ${n === 1 ? 'entry' : 'entries'}`);
 ---
 
-<section class="filters" aria-label="Filter entries">
+<section class="filters" aria-label={copy.filterEntries}>
   <div class="row">
     <div class="bleed type-strip">
-      <div class="ds-togglegroup md rounded color-secondary type-group" role="group" aria-label="Filter by type">
+      <div class="ds-togglegroup md rounded color-secondary type-group" role="group" aria-label={copy.filterByType}>
         {
           types.map((t) => (
             <button
@@ -35,7 +38,7 @@ const countLabel = (n: number) => (n === 1 ? '1 entry' : `${n} entries`);
               data-type={t.key}
             >
               <span class="dot" aria-hidden="true" style={`background:${t.color}`} />
-              {t.key}
+              {t.key === 'All' ? copy.all : typeLabel(t.key, language)}
               <span class="n">{t.count}</span>
             </button>
           ))
@@ -46,7 +49,7 @@ const countLabel = (n: number) => (n === 1 ? '1 entry' : `${n} entries`);
       <span class="tf-adorn" aria-hidden="true">
         <svg viewBox="0 0 24 24"><path fill="currentColor" d={icons.search}></path></svg>
       </span>
-      <input type="search" placeholder="Search by title" aria-label="Search by title" autocomplete="off" />
+      <input type="search" placeholder={copy.search} aria-label={copy.search} autocomplete="off" />
     </label>
   </div>
 
@@ -58,7 +61,7 @@ const countLabel = (n: number) => (n === 1 ? '1 entry' : `${n} entries`);
         </button>
       ))
     }
-    <button type="button" class="btn btn-text btn-xs clear" data-clear hidden>Clear filters</button>
+    <button type="button" class="btn btn-text btn-xs clear" data-clear hidden>{copy.clearFilters}</button>
   </div>
 
   <span class="count" aria-live="polite">{countLabel(entries.length)}</span>

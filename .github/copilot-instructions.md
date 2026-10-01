@@ -7,13 +7,13 @@ Simon Shen's personal site (https://simonshenat2025.github.io): a "shelf" of ent
 - Styling uses the Stridyn design-system CSS in `src/styles/ds/` plus semantic light/dark tokens in `src/styles/site-tokens.css`; use those tokens rather than raw colours.
 - Markdown runs through Sätteri (Astro 7's default), not remark/rehype. Custom transforms are hast plugins in `src/lib/markdown/plugins.ts`.
 - Client-side behaviour is vanilla `<script>` inside `.astro` components; there is no UI framework.
-- The EN / 中文 switch is visual only for now; there is no Chinese content yet.
+- The EN / 中文 switch navigates between localized routes. Every entry has an English Markdown source and a paired Simplified Chinese translation under `src/content/entries/zh/`.
 - Images in `src/content/entries/images/` and the entries other than `learn-from-youtube-transcripts.md` are placeholders.
 
 # Language
 
 - Chat replies: Simplified Chinese, keeping English technical terms as-is.
-- Everything written to the repo is English: code, comments, docs, commit messages, PR text, file and branch names.
+- Code, comments, docs, commit messages, PR text, file and branch names are English. Chinese entry translations are written in Simplified Chinese under `src/content/entries/zh/`.
 
 # Development
 

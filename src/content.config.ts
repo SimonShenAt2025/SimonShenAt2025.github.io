@@ -13,6 +13,8 @@ const entries = defineCollection({
       tags: z.array(z.string()),
       date: z.coerce.date(),
       summary: z.string(),
+      language: z.enum(['en', 'zh']).default('en'),
+      translationKey: z.string().optional(),
       cover: image().optional(),
       coverAlt: z.string().optional(),
       status: z.string().optional(),

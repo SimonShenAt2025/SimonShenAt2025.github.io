@@ -13,7 +13,7 @@ A personal "collection + learning notes" site for Simon Shen, a software develop
 - **Home**: short intro, filter and search bar, card grid of entries.
 - **Entry detail**: one Markdown file rendered as a long-form reading page.
 
-Entry types: **Guide**, **Tool**, **App**, **Idea**. All UI copy is English. A language switch (EN / 中文) is shown in the header; for now it only holds visual state (Chinese content is out of scope).
+Entry types: **Guide**, **Tool**, **App**, **Idea**. The original prototype specified English-only UI and a visual-only EN / 中文 switch. The current implementation supports localized routes and paired Simplified Chinese Markdown entries; see the README for the current content convention.
 
 Target stack: **Astro** static site, deployed to **GitHub Pages**, no backend. Each entry is a Markdown file with frontmatter.
 

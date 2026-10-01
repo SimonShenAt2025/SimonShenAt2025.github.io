@@ -1,7 +1,18 @@
+---
+import { MESSAGES, type Locale } from '../lib/i18n';
+
+interface Props {
+  language: Locale;
+}
+
+const { language } = Astro.props;
+const copy = MESSAGES[language];
+---
+
 <section class="intro" aria-labelledby="intro-title">
   <div class="container inner">
-    <h1 id="intro-title">I'm Simon Shen, a software developer in Auckland, New Zealand.</h1>
-    <p>I work mostly with TypeScript and Azure, and this is where I keep the tools, ideas, apps and guides worth remembering.</p>
+    <h1 id="intro-title">{copy.introTitle}</h1>
+    <p>{copy.introLead}</p>
   </div>
 </section>
 

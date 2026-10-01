@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import HomeShelf from '../../components/HomeShelf.astro';
+import { getSortedEntries } from '../../lib/entries';
+
+const entries = await getSortedEntries('zh');
+---
+
+<BaseLayout
+  title="Simon Shen · 中文"
+  description="Simon Shen 收藏的工具、想法、应用与指南。"
+  language="zh"
+>
+  <HomeShelf entries={entries} language="zh" />
+</BaseLayout>

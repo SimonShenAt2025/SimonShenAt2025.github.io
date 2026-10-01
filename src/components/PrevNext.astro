@@ -1,15 +1,18 @@
 ---
 import { icons } from '../lib/icons';
 import { TYPE_META, entryUrl, type Entry } from '../lib/entries';
+import { MESSAGES, typeLabel, type Locale } from '../lib/i18n';
 
 interface Props {
+  language: Locale;
   /** The next-older entry. */
   prev?: Entry;
   /** The next-newer entry. */
   next?: Entry;
 }
 
-const { prev, next } = Astro.props;
+const { language, prev, next } = Astro.props;
+const copy = MESSAGES[language];
 ---
 
 {
@@ -21,7 +24,7 @@ const { prev, next } = Astro.props;
             <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
               <path fill="currentColor" d={icons.arrowBack} />
             </svg>
-            Previous · {prev.data.type}
+            {copy.previous} · {typeLabel(prev.data.type, language)}
           </span>
           <span class="title">{prev.data.title}</span>
         </a>
@@ -29,7 +32,7 @@ const { prev, next } = Astro.props;
       {next && (
         <a class="tile next" href={entryUrl(next)} style={`background:${TYPE_META[next.data.type].tint}`}>
           <span class="label">
-            Next · {next.data.type}
+            {copy.next} · {typeLabel(next.data.type, language)}
             <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
               <path fill="currentColor" d={icons.arrowForward} />
             </svg>

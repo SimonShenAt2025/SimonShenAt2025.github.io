@@ -1,5 +1,6 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { icons } from './icons';
+import type { Locale } from './i18n';
 
 export type Entry = CollectionEntry<'entries'>;
 export type EntryType = Entry['data']['type'];
@@ -13,20 +14,19 @@ export const TYPE_META: Record<EntryType, { main: string; tint: string; icon: st
 };
 
 /** All entries, newest first. */
-export async function getSortedEntries(): Promise<Entry[]> {
+export async function getSortedEntries(locale: Locale = 'en'): Promise<Entry[]> {
   const all = await getCollection('entries');
-  return all.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+  return all
+    .filter((entry) => entry.data.language === locale)
+    .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 }
 
 export function entryUrl(entry: Entry): string {
-  return `${import.meta.env.BASE_URL.replace(/\/$/, '')}/entries/${entry.id}/`;
-}
-
-const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-/** `10 Sep 2026`. Built by hand because ICU's en-NZ short month for September is "Sept". */
-export function formatDate(date: Date): string {
-  return `${date.getUTCDate()} ${MONTHS[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
+  const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+  if (entry.data.language === 'zh') {
+    return `${base}/zh/entries/${entry.data.translationKey}/`;
+  }
+  return `${base}/entries/${entry.id}/`;
 }
 
 /** `2026-09-10`, for `<time datetime>`. */
